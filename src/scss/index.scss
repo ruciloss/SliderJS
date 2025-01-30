@@ -1,0 +1,199 @@
+$prefix: swiper;
+
+:root {
+    /* Colors */
+    --#{$prefix}-color-white: #ffffff;
+    --#{$prefix}-color-black-overlay: rgba(0, 0, 0, .25);
+    --#{$prefix}-color-dot-inactive: rgba(255, 255, 255, .5);
+
+    // Opacity 
+    --#{$prefix}-opacity-hover: 1;
+    --#{$prefix}-opacity-default: .5;
+
+    // Z-index 
+    --#{$prefix}-z-index-overlay: 1;
+    --#{$prefix}-z-index-content: 2;
+
+    // Font sizes 
+    --#{$prefix}-font-size-default: 1em;
+    --#{$prefix}-font-size-caption-header: 1.5em;
+    --#{$prefix}-font-size-nav: 2em;
+    --#{$prefix}-font-size-control: 1.25em;
+    --#{$prefix}-font-size-counter: 1em;
+
+    // Positioning 
+    --#{$prefix}-position-left-right: 1.25em; 
+    --#{$prefix}-position-bottom: .625em; 
+    --#{$prefix}-position-caption-bottom: 3.125em;
+
+    // Sizing 
+    --#{$prefix}-dot-size: .625em; 
+    --#{$prefix}-dot-margin: .3125em; 
+}
+
+// Main
+.#{$prefix} {
+    font-family: inherit;
+    font-size: var(--#{$prefix}-font-size-default);
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+
+    // Inner
+    .#{$prefix}-inner {
+        display: flex;
+        transition: transform 0.5s ease-in-out;
+        cursor: grab;
+        
+        // Drag & Drop
+        &:active {
+            cursor: grabbing;
+        }
+
+        // Items
+        .#{$prefix}-item {
+            flex: 0 0 100%; 
+            position: relative;
+            cursor: grab;
+            
+            // Drag & Drop
+            &:active {
+                cursor: grabbing;
+            }
+
+            & > img {
+                display: block;
+                height: auto;
+                width: 100%;
+            }
+
+            // Overlay
+            &.#{$prefix}-overlay::before {
+                background: var(--#{$prefix}-color-black-overlay);
+                content: '';
+                height: 100%;
+                left: 0;
+                position: absolute;
+                top: 0;
+                width: 100%;
+                z-index: var(--#{$prefix}-z-index-overlay);
+            }
+
+            // Caption
+            .#{$prefix}-caption {
+                bottom: var(--#{$prefix}-position-caption-bottom);
+                color: var(--#{$prefix}-color-white);
+                left: 50%;
+                position: absolute;
+                transform: translateX(-50%);
+                z-index: var(--#{$prefix}-z-index-content);
+
+                & > h2 {
+                    font-size: var(--#{$prefix}-font-size-caption-header);
+                    margin: 0 0 var(--#{$prefix}-dot-margin);
+                }
+            
+                & > p {
+                    font-size: var(--#{$prefix}-font-size-default);
+                    margin: 0;
+                }
+
+                @media only screen and (max-width: 768px) {
+                    bottom: 50%;
+                    left: 50%;
+                    transform: translate(-50%, 50%);
+                    text-align: center;
+                    width: 60%;
+                }
+            }
+
+        }
+
+    }
+
+    // Dots
+    .#{$prefix}-dots {
+        bottom: var(--#{$prefix}-position-bottom);
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        text-align: center;
+        user-select: none;
+        z-index: var(--#{$prefix}-z-index-content);
+
+        .#{$prefix}-dot {
+            background-color: var(--#{$prefix}-color-dot-inactive);
+            border-radius: 50%;
+            cursor: pointer;
+            display: inline-block;
+            height: var(--#{$prefix}-dot-size);
+            margin: 0 var(--#{$prefix}-dot-margin);
+            transition: background-color 0.25s;
+            width: var(--#{$prefix}-dot-size);
+
+            &:hover,
+            &.active {
+                background-color: var(--#{$prefix}-color-white);
+            }
+        }
+    }
+
+    // Nav
+    .#{$prefix}-nav {
+        color: var(--#{$prefix}-color-white);
+        cursor: pointer;
+        font-size: var(--#{$prefix}-font-size-nav);
+        opacity: var(--#{$prefix}-opacity-default);
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        transition: color 0.25s;
+        user-select: none;
+        z-index: var(--#{$prefix}-z-index-content);
+
+        &:hover {
+            color: var(--#{$prefix}-color-white);
+            opacity: var(--#{$prefix}-opacity-hover);
+        }
+
+        &.#{$prefix}-prev {
+            left: var(--#{$prefix}-position-left-right);
+        }
+
+        &.#{$prefix}-next {
+            right: var(--#{$prefix}-position-left-right);
+        }
+    }
+
+    // Control
+    .#{$prefix}-control {
+        border: none;
+        bottom: var(--#{$prefix}-position-bottom);
+        color: var(--#{$prefix}-color-white);
+        cursor: pointer;
+        font-size: var(--#{$prefix}-font-size-control);
+        opacity: var(--#{$prefix}-opacity-default);
+        position: absolute;
+        right: var(--#{$prefix}-position-left-right);
+        transition: color 0.25s;
+        user-select: none;
+        z-index: var(--#{$prefix}-z-index-content);
+
+        &:hover {
+            color: var(--#{$prefix}-color-white);
+            opacity: var(--#{$prefix}-opacity-hover);
+        }
+    }
+
+    // Counter
+    .#{$prefix}-counter {
+        bottom: var(--#{$prefix}-position-bottom);
+        color: var(--#{$prefix}-color-white);
+        font-size: var(--#{$prefix}-font-size-counter);
+        left: var(--#{$prefix}-position-left-right);
+        opacity: var(--#{$prefix}-opacity-default);
+        position: absolute;
+        z-index: var(--#{$prefix}-z-index-content);
+    }
+
+} // .#{$prefix}

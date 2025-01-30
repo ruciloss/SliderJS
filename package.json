@@ -1,0 +1,58 @@
+{
+    "name": "sliderjs",
+    "version": "1.0.0",
+    "author": "Ruciloss",
+    "license": "MIT",
+    "description": "",
+    "keywords": [
+        "slider",
+        "carousel",
+        "javascript slider",
+        "responsive slider",
+        "image slider",
+        "web development",
+        "interactive elements",
+        "ui components",
+        "smooth transitions",
+        "responsive design",
+        "carousel slider",
+        "js carousel"
+    ],
+    "bugs": {
+        "url": "https://github.com/ruciloss/sliderjs/issues"
+    },
+    "homepage": "https://ruciloss.github.io",
+    "exports": {
+        ".": "./dist/sliderjs.min.js"
+    },
+    "main": "./dist/sliderjs.min.js",
+    "module": "./dist/sliderjs.min.js",
+    "files": [
+        "dist"
+    ],
+    "devDependencies": {
+        "@babel/core": "^7.25.2",
+        "@babel/preset-env": "^7.25.4",
+        "@eslint/js": "^9.8.0",
+        "babel-loader": "^9.1.3",
+        "css-loader": "^7.1.1",
+        "eslint": "^9.8.0",
+        "globals": "^15.9.0",
+        "ignore-emit-webpack-plugin": "^2.0.6",
+        "mini-css-extract-plugin": "^2.9.0",
+        "prettier": "^3.4.2",
+        "sass-loader": "^14.2.1",
+        "sass": "^1.77.1",
+        "webpack-cli": "^5.1.4",
+        "webpack": "^5.91.0"
+    },
+    "scripts": {
+        "start": "webpack",
+        "format": "prettier --write src/**/*.js",
+        "lint": "eslint src/**/*.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/ruciloss/sliderjs"
+    }
+}
