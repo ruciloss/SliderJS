@@ -2,7 +2,7 @@
 
 SliderJS is a lightweight, responsive library designed for creating dynamic sliders. 
 It offers smooth transitions and customizable settings while being accessible (a11y), ensuring an inclusive experience for all users. 
-Perfect for enhancing usability and user experience!
+Perfect for enhancing usability and user experience.
 
 # How to use
 
