@@ -1,20 +1,22 @@
 import { $, $$$, addClass, addEvent, setHTMLContent, addStyle, createNode, debug, setAttribute, uuidv4, hide, appendNode, toggleClass } from './domease.min.js';
 
-const slider = $('.swiper');
+const prefix = 'sliderjs';
+const slider = $(`.${prefix}`);
+
 if (!slider) {
-    debug('[SliderJS]', 'Slider element not found', null, true);
-    throw new Error('Slider element not found');
+    debug('[SliderJS]', 'SliderJS element not found', null, true);
+    throw new Error('SliderJS element not found');
 }
 slider.id = uuidv4();
-debug('[SliderJS]', 'Initializing Swiper slider', { id: slider.id });
+debug('[SliderJS]', 'Initializing SliderJS', { id: slider.id });
 
-const swiperInner = $('.swiper-inner', slider);
-const slides = $$$('.swiper-item', swiperInner);
-if (!swiperInner || slides.length === 0) {
-    debug('[SliderJS]', 'Swiper content or slides not found', null, true);
-    throw new Error('Swiper content or slides not found');
+const inner = $('.sliderjs-inner', slider);
+const slides = $$$('.sliderjs-item', inner);
+if (!inner || slides.length === 0) {
+    debug('[SliderJS]', 'Content or slides not found', null, true);
+    throw new Error('SliderJS content or slides not found');
 }
-debug('[SliderJS]', 'Swiper content and slides found', { totalSlides: slides.length });
+debug('[SliderJS]', 'Content and slides found', { totalSlides: slides.length });
 
 const config = {
     autoplayDisabled: slider.dataset.autoplay === "false",
@@ -38,12 +40,12 @@ debug('[SliderJS]', 'Slider initial state', state);
 
 function createDots() {
     const dotsContainer = createNode('div');
-    addClass(dotsContainer, 'swiper-dots');
+    addClass(dotsContainer, 'sliderjs-dots');
     appendNode(slider, dotsContainer);
 
     for (let i = 0; i < state.totalSlides; i++) {
         const dot = createNode('span');
-        addClass(dot, 'swiper-dot');
+        addClass(dot, 'sliderjs-dot');
         addEvent(dot, 'click', () => {
             debug('[SliderJS]', 'Dot clicked', { index: i });
             showSlide(i);
@@ -58,7 +60,7 @@ function createDots() {
 
 function createControl() {
     const controlButton = createNode('div');
-    addClass(controlButton, 'swiper-control');
+    addClass(controlButton, 'sliderjs-control');
     setHTMLContent(controlButton, '&#9208;');
     appendNode(slider, controlButton);
 
@@ -85,7 +87,7 @@ function createControl() {
 
 function createCounter() {
     const counter = createNode('div');
-    addClass(counter, 'swiper-counter');
+    addClass(counter, 'sliderjs-counter');
 
     if (config.counterDisabled) {
         hide(counter);
@@ -107,12 +109,12 @@ const updateCounter = createCounter();
 
 function createNav() {
     const navPrev = createNode('div');
-    addClass(navPrev, 'swiper-nav', 'swiper-prev');
+    addClass(navPrev, 'sliderjs-nav', 'sliderjs-prev');
     setHTMLContent(navPrev, '&#10094;');
     appendNode(slider, navPrev);
 
     const navNext = createNode('div');
-    addClass(navNext, 'swiper-nav', 'swiper-next');
+    addClass(navNext, 'sliderjs-nav', 'sliderjs-next');
     setHTMLContent(navNext, '&#10095;');
     appendNode(slider, navNext);
 
@@ -135,7 +137,7 @@ function createNav() {
 function createOverlay() {
     if (config.overlayEnabled) {
         slides.forEach(slide => {
-            addClass(slide, 'swiper-overlay');
+            addClass(slide, 'sliderjs-overlay');
         });
         debug('[SliderJS]', 'Overlay added to slides');
     }
@@ -154,14 +156,14 @@ function showSlide(index) {
 
     state.currentIndex = index;
     const slideWidthPercentage = 100;
-    swiperInner.style.transform = `translateX(-${index * slideWidthPercentage}%)`;
+    inner.style.transform = `translateX(-${index * slideWidthPercentage}%)`;
 
     updateDots();
     updateCounter();
 }
 
 function updateDots() {
-    const dots = $$$('.swiper-dot');
+    const dots = $$$('.sliderjs-dot');
     dots.forEach((dot, index) => {
         toggleClass(dot, 'active', index === state.currentIndex);
     });
@@ -182,7 +184,7 @@ function a11yKeyboard() {
         setAttribute(slide, 'tabindex', '-1');
     });
 
-    const navButtons = $$$('.swiper-nav');
+    const navButtons = $$$('.sliderjs-nav');
 
     navButtons.forEach((button) => {
         setAttribute(button, 'tabindex', '0');
@@ -194,7 +196,7 @@ function a11yKeyboard() {
         });
     });
 
-    const dots = $$$('.swiper-dot');
+    const dots = $$$('.sliderjs-dot');
     dots.forEach((dot, index) => {
         setAttribute(dot, 'tabindex', '0');
         addEvent(dot, 'keydown', (e) => {
@@ -260,7 +262,7 @@ function a11yKeyboard() {
         updateSlideTabindex();
     };
 
-    const playPauseButton = $('.swiper-control');
+    const playPauseButton = $('.sliderjs-control');
     setAttribute(playPauseButton, 'tabindex', '0');
 
     addEvent(playPauseButton, 'keydown', (e) => {
@@ -285,17 +287,17 @@ function a11y() {
         setAttribute(slide, 'tabindex', index === state.currentIndex ? '0' : '-1');
     });
 
-    const navPrev = $('.swiper-prev');
+    const navPrev = $('.sliderjs-prev');
     setAttribute(navPrev, 'tabindex', '0');
     setAttribute(navPrev, 'role', 'button');
     setAttribute(navPrev, 'aria-label', 'Previous slide');
 
-    const navNext = $('.swiper-next');
+    const navNext = $('.sliderjs-next');
     setAttribute(navNext, 'tabindex', '0');
     setAttribute(navNext, 'role', 'button');
     setAttribute(navNext, 'aria-label', 'Next slide');
 
-    $$$('.swiper-dot').forEach((dot, index) => {
+    $$$('.sliderjs-dot').forEach((dot, index) => {
         setAttribute(dot, 'role', 'tab');
         setAttribute(dot, 'aria-label', `${index + 1}. slide`);
         setAttribute(dot, 'aria-selected', index === state.currentIndex ? 'true' : 'false');
@@ -308,7 +310,7 @@ function a11y() {
         });
     });
 
-    const playPauseButton = $('.swiper-control');
+    const playPauseButton = $('.sliderjs-control');
     setAttribute(playPauseButton, 'role', 'button');
     setAttribute(playPauseButton, 'aria-label', 'Play/Pause slider');
 
@@ -318,7 +320,7 @@ function a11y() {
         slides.forEach((slide, idx) => {
             setAttribute(slide, 'tabindex', idx === state.currentIndex ? '0' : '-1');
         });
-        $$$('.swiper-dot').forEach((dot, idx) => {
+        $$$('.sliderjs-dot').forEach((dot, idx) => {
             setAttribute(dot, 'aria-selected', idx === state.currentIndex ? 'true' : 'false');
         });
     };
@@ -336,7 +338,7 @@ function enableDragAndDrop() {
         event.preventDefault(); 
         isDragging = true;
         startX = event.clientX;
-        swiperInner.style.transition = 'none'; 
+        inner.style.transition = 'none'; 
         debug('[SliderJS]', 'Mouse down', { startX });
     }
 
@@ -349,7 +351,7 @@ function enableDragAndDrop() {
         currentTranslate = prevTranslate + deltaX;
 
         const maxTranslate = 0; 
-        const minTranslate = -(state.totalSlides - 1) * swiperInner.offsetWidth; 
+        const minTranslate = -(state.totalSlides - 1) * inner.offsetWidth; 
 
         if (currentTranslate > maxTranslate) {
             currentTranslate = maxTranslate;
@@ -357,7 +359,7 @@ function enableDragAndDrop() {
             currentTranslate = minTranslate;
         }
 
-        swiperInner.style.transform = `translateX(${currentTranslate}px)`;
+        inner.style.transform = `translateX(${currentTranslate}px)`;
         debug('[SliderJS]', 'Mouse move', { currentX, deltaX, currentTranslate });
     }
 
@@ -365,7 +367,7 @@ function enableDragAndDrop() {
         if (!isDragging) return;
 
         isDragging = false;
-        swiperInner.style.transition = 'transform 0.3s ease-out';
+        inner.style.transition = 'transform 0.3s ease-out';
 
         const movedBy = currentTranslate - prevTranslate;
 
@@ -377,15 +379,15 @@ function enableDragAndDrop() {
             showSlide(state.currentIndex); 
         }
 
-        prevTranslate = -state.currentIndex * swiperInner.offsetWidth; 
+        prevTranslate = -state.currentIndex * inner.offsetWidth; 
         debug('[SliderJS]', 'Mouse up', { movedBy, prevTranslate });
     }
 
-    addEvent(swiperInner, 'mousedown', handleMouseDown);
+    addEvent(inner, 'mousedown', handleMouseDown);
     addEvent(window, 'mousemove', handleMouseMove);
     addEvent(window, 'mouseup', handleMouseUp);
 
-    swiperInner.querySelectorAll("img").forEach((img) => {
+    inner.querySelectorAll("img").forEach((img) => {
         img.setAttribute('draggable', 'false');
     });
 
@@ -394,7 +396,7 @@ function enableDragAndDrop() {
 
 function run() {
     debug('[SliderJS]', 'Initializing...');
-    addStyle('dist/css/swiper.min.css');
+    addStyle('dist/css/sliderjs.min.css');
     createNav();
     createDots();
     createControl();
