@@ -14,7 +14,7 @@ Make sure to include SliderJS in your project.
 ```
 
 ### 2. Initialize the SliderJS
-After including the required files, simply call the following JavaScript function to enable the theme toggler functionality:
+After including the required files, add the following HTML structure to create the slider:
 
 ```html
 <div class="sliderjs">
@@ -22,40 +22,49 @@ After including the required files, simply call the following JavaScript functio
         <div class="sliderjs-item">
             <img src="https://4kwallpapers.com/images/wallpapers/ghost-of-yotei-game-3840x2160-19048.jpg" alt="Obrazek 1">
             <div class="sliderjs-caption">
-                <h2>Nadpis 1</h2>
-                <p>Tento obrázek ukazuje fantastickou krajinu s horami a přírodou.</p>
+                <h2>Title</h2>
+                <p>Lorem ipsum dolor sit amet</p>
             </div>
         </div>
         <div class="sliderjs-item">
             <img src="https://4kwallpapers.com/images/wallpapers/ghost-of-yotei-game-3840x2160-19048.jpg" alt="Obrazek 2">
             <div class="sliderjs-caption">
-                <h2>Nadpis 2</h2>
-                <p>Popis obrázku s panoramatem ve hře Ghost of Yotei.</p>
+                <h2>Title</h2>
+                <p>Lorem ipsum dolor sit amet</p>
             </div>
         </div>
         <div class="sliderjs-item">
             <img src="https://4kwallpapers.com/images/wallpapers/ghost-of-yotei-game-3840x2160-19048.jpg" alt="Obrazek 3">
             <div class="sliderjs-caption">
-                <h2>Nadpis 3</h2>
-                <p>Obrázek s temnou atmosférou a dramatickými stíny.</p>
+                <h2>Title</h2>
+                <p>Lorem ipsum dolor sit amet</p>
             </div>
         </div>
         <div class="sliderjs-item">
             <img src="https://4kwallpapers.com/images/wallpapers/ghost-of-yotei-game-3840x2160-19048.jpg" alt="Obrazek 3">
             <div class="sliderjs-caption">
-                <h2>Nadpis 3</h2>
-                <p>Obrázek s temnou atmosférou a dramatickými stíny.</p>
+                <h2>Title</h2>
+                <p>Lorem ipsum dolor sit amet</p>
             </div>
         </div>
     </div>
 </div>
 ```
 
-### 3. Optional options
-After including the required files, simply call the following JavaScript function to enable the theme toggler functionality:
+### 3. Optional Configuration
+You can customize the slider using the following attributes:
 
 ```html
-<div class="sliderjs" data-speed="1000" data-autoplay="false" data-loop="false" data-nav="false" data-dots="false" data-counter="false" data-control="false" data-overlay="true">
+<div class="sliderjs" 
+     data-speed="1000" 
+     data-autoplay="false" 
+     data-loop="false" 
+     data-nav="false" 
+     data-dots="false" 
+     data-counter="false" 
+     data-control="false" 
+     data-overlay="true">
+</div>
 ```
 
 ## Website

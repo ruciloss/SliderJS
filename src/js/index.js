@@ -10,8 +10,8 @@ if (!slider) {
 slider.id = uuidv4();
 debug('[SliderJS]', 'Initializing SliderJS', { id: slider.id });
 
-const inner = $('.sliderjs-inner', slider);
-const slides = $$$('.sliderjs-item', inner);
+const inner = $(`.${prefix}-inner`, slider);
+const slides = $$$(`.${prefix}-item`, inner);
 if (!inner || slides.length === 0) {
     debug('[SliderJS]', 'Content or slides not found', null, true);
     throw new Error('SliderJS content or slides not found');
@@ -163,7 +163,7 @@ function showSlide(index) {
 }
 
 function updateDots() {
-    const dots = $$$('.sliderjs-dot');
+    const dots = $$$(`.${prefix}-dot`);
     dots.forEach((dot, index) => {
         toggleClass(dot, 'active', index === state.currentIndex);
     });
@@ -184,7 +184,7 @@ function a11yKeyboard() {
         setAttribute(slide, 'tabindex', '-1');
     });
 
-    const navButtons = $$$('.sliderjs-nav');
+    const navButtons = $$$(`.${prefix}-nav`);
 
     navButtons.forEach((button) => {
         setAttribute(button, 'tabindex', '0');
@@ -196,7 +196,7 @@ function a11yKeyboard() {
         });
     });
 
-    const dots = $$$('.sliderjs-dot');
+    const dots = $$$(`.${prefix}-dot`);
     dots.forEach((dot, index) => {
         setAttribute(dot, 'tabindex', '0');
         addEvent(dot, 'keydown', (e) => {
@@ -262,7 +262,7 @@ function a11yKeyboard() {
         updateSlideTabindex();
     };
 
-    const playPauseButton = $('.sliderjs-control');
+    const playPauseButton = $(`.${prefix}-control`);
     setAttribute(playPauseButton, 'tabindex', '0');
 
     addEvent(playPauseButton, 'keydown', (e) => {
@@ -287,17 +287,17 @@ function a11y() {
         setAttribute(slide, 'tabindex', index === state.currentIndex ? '0' : '-1');
     });
 
-    const navPrev = $('.sliderjs-prev');
+    const navPrev = $(`.${prefix}-prev`);
     setAttribute(navPrev, 'tabindex', '0');
     setAttribute(navPrev, 'role', 'button');
     setAttribute(navPrev, 'aria-label', 'Previous slide');
 
-    const navNext = $('.sliderjs-next');
+    const navNext = $(`.${prefix}-next`);
     setAttribute(navNext, 'tabindex', '0');
     setAttribute(navNext, 'role', 'button');
     setAttribute(navNext, 'aria-label', 'Next slide');
 
-    $$$('.sliderjs-dot').forEach((dot, index) => {
+    $$$(`.${prefix}-dot`).forEach((dot, index) => {
         setAttribute(dot, 'role', 'tab');
         setAttribute(dot, 'aria-label', `${index + 1}. slide`);
         setAttribute(dot, 'aria-selected', index === state.currentIndex ? 'true' : 'false');
@@ -310,7 +310,7 @@ function a11y() {
         });
     });
 
-    const playPauseButton = $('.sliderjs-control');
+    const playPauseButton = $(`.${prefix}-control`);
     setAttribute(playPauseButton, 'role', 'button');
     setAttribute(playPauseButton, 'aria-label', 'Play/Pause slider');
 
@@ -320,7 +320,7 @@ function a11y() {
         slides.forEach((slide, idx) => {
             setAttribute(slide, 'tabindex', idx === state.currentIndex ? '0' : '-1');
         });
-        $$$('.sliderjs-dot').forEach((dot, idx) => {
+        $$$(`.${prefix}-dot`).forEach((dot, idx) => {
             setAttribute(dot, 'aria-selected', idx === state.currentIndex ? 'true' : 'false');
         });
     };
@@ -396,7 +396,7 @@ function enableDragAndDrop() {
 
 function run() {
     debug('[SliderJS]', 'Initializing...');
-    addStyle('dist/css/sliderjs.min.css');
+    addStyle(`dist/css/${prefix}.min.css`);
     createNav();
     createDots();
     createControl();
