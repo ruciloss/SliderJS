@@ -1,8 +1,8 @@
 # SliderJS
 
-SliderJS makes it easy to create responsive and interactive sliders. 
-With smooth transitions and customizable settings, you can add dynamic image carousels and content sliders to your website. 
-The library is lightweight, easy to integrate, and perfect for enhancing user experience.
+SliderJS is a lightweight, responsive library designed for creating dynamic sliders. 
+It offers smooth transitions and customizable settings while being accessible (a11y), ensuring an inclusive experience for all users. 
+Perfect for enhancing usability and user experience!
 
 # How to use
 
