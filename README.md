@@ -75,6 +75,6 @@ Check out the https://ruciloss.github.io
 
 Distributed under the **MIT** License. See [LICENSE](https://opensource.org/license/mit) for more information.
 
----
+## Credits
 
 Copyright © Ruciloss
