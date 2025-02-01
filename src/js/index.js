@@ -59,6 +59,11 @@ function createDots() {
 }
 
 function createControl() {
+
+    if (config.autoplayDisabled) {
+        return;
+    }
+
     const controlButton = createNode('div');
     addClass(controlButton, 'sliderjs-control');
     setHTMLContent(controlButton, '&#9208;');
@@ -391,7 +396,7 @@ function enableDragAndDrop() {
         img.setAttribute('draggable', 'false');
     });
 
-    debug('[SliderJS]', 'Drag&Drop enabled');
+    debug('[SliderJS]', 'Drag & Drop enabled');
 }
 
 function run() {
