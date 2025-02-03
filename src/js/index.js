@@ -1,22 +1,23 @@
-import { $, $$$, addClass, addEvent, setHTMLContent, addStyle, createNode, debug, setAttribute, uuidv4, hide, appendNode, toggleClass } from './domease.min.js';
+import { $, $$, addClass, addEvent, setHTMLContent, addStyle, createNode, debug, setAttribute, uuidv4, hide, appendNode, toggleClass } from './domease.min.js';
 
 const prefix = 'sliderjs';
 const slider = $(`.${prefix}`);
+const debugPrefix = '[SliderJS]';
 
 if (!slider) {
-    debug('[SliderJS]', 'SliderJS element not found', null, true);
+    debug(debugPrefix, 'SliderJS element not found', null, true);
     throw new Error('SliderJS element not found');
 }
 slider.id = uuidv4();
-debug('[SliderJS]', 'Initializing SliderJS', { id: slider.id });
+debug(debugPrefix, 'Initializing SliderJS', { id: slider.id });
 
 const inner = $(`.${prefix}-inner`, slider);
-const slides = $$$(`.${prefix}-item`, inner);
+const slides = $$(`.${prefix}-item`, inner);
 if (!inner || slides.length === 0) {
-    debug('[SliderJS]', 'Content or slides not found', null, true);
+    debug(debugPrefix, 'Content or slides not found', null, true);
     throw new Error('SliderJS content or slides not found');
 }
-debug('[SliderJS]', 'Content and slides found', { totalSlides: slides.length });
+debug(debugPrefix, 'Content and slides found', { totalSlides: slides.length });
 
 const config = {
     autoplayDisabled: slider.dataset.autoplay === "false",
@@ -28,7 +29,7 @@ const config = {
     controlDisabled: slider.dataset.control === "false",
     counterDisabled: slider.dataset.counter === "false"
 };
-debug('[SliderJS]', 'Slider configuration', config);
+debug(debugPrefix, 'Slider configuration', config);
 
 const state = {
     currentIndex: 0,
@@ -36,7 +37,7 @@ const state = {
     autoplayInterval: null,
     isPlaying: config.autoplayDisabled,
 };
-debug('[SliderJS]', 'Slider initial state', state);
+debug(debugPrefix, 'Slider initial state', state);
 
 function createDots() {
     const dotsContainer = createNode('div');
@@ -47,7 +48,7 @@ function createDots() {
         const dot = createNode('span');
         addClass(dot, 'sliderjs-dot');
         addEvent(dot, 'click', () => {
-            debug('[SliderJS]', 'Dot clicked', { index: i });
+            debug(debugPrefix, 'Dot clicked', { index: i });
             showSlide(i);
         });
         appendNode(dotsContainer, dot);
@@ -74,11 +75,11 @@ function createControl() {
             clearInterval(state.autoplayInterval);
             state.autoplayInterval = null;
             setHTMLContent(controlButton, '&#9208;');
-            debug('[SliderJS]', 'Autoplay paused');
+            debug(debugPrefix, 'Autoplay paused');
         } else {
             autoplay();
             setHTMLContent(controlButton, '&#9654;');
-            debug('[SliderJS]', 'Autoplay resumed');
+            debug(debugPrefix, 'Autoplay resumed');
         }
         state.isPlaying = !state.isPlaying; 
     }
@@ -102,7 +103,7 @@ function createCounter() {
 
     function updateCounter() {
         counter.textContent = `${state.currentIndex + 1}/${state.totalSlides}`;
-        debug('[SliderJS]', 'Counter updated', { currentIndex: state.currentIndex + 1, totalSlides: state.totalSlides });
+        debug(debugPrefix, 'Counter updated', { currentIndex: state.currentIndex + 1, totalSlides: state.totalSlides });
     }
 
     updateCounter();
@@ -124,12 +125,12 @@ function createNav() {
     appendNode(slider, navNext);
 
     addEvent(navPrev, 'click', () => {
-        debug('[SliderJS]', 'Previous navigation clicked');
+        debug(debugPrefix, 'Previous navigation clicked');
         showSlide(state.currentIndex - 1);
     });
 
     addEvent(navNext, 'click', () => {
-        debug('[SliderJS]', 'Next navigation clicked');
+        debug(debugPrefix, 'Next navigation clicked');
         showSlide(state.currentIndex + 1);
     });
 
@@ -144,12 +145,12 @@ function createOverlay() {
         slides.forEach(slide => {
             addClass(slide, 'sliderjs-overlay');
         });
-        debug('[SliderJS]', 'Overlay added to slides');
+        debug(debugPrefix, 'Overlay added to slides');
     }
 }
 
 function showSlide(index) {
-    debug('[SliderJS]', 'Showing slide', { index });
+    debug(debugPrefix, 'Showing slide', { index });
 
     if (!config.loopDisabled) {
         if (index < 0) index = state.totalSlides - config.items;
@@ -168,17 +169,17 @@ function showSlide(index) {
 }
 
 function updateDots() {
-    const dots = $$$(`.${prefix}-dot`);
+    const dots = $$(`.${prefix}-dot`);
     dots.forEach((dot, index) => {
         toggleClass(dot, 'active', index === state.currentIndex);
     });
-    debug('[SliderJS]', 'Dots updated', { activeDot: state.currentIndex });
+    debug(debugPrefix, 'Dots updated', { activeDot: state.currentIndex });
 }
 
 function autoplay() {
     if (!config.autoplayDisabled && !state.autoplayInterval) {
         state.autoplayInterval = setInterval(() => {
-            debug('[SliderJS]', 'Autoplay advancing slide', { currentIndex: state.currentIndex });
+            debug(debugPrefix, 'Autoplay advancing slide', { currentIndex: state.currentIndex });
             showSlide(state.currentIndex + 1);
         }, config.autoplaySpeed);
     }
@@ -189,7 +190,7 @@ function a11yKeyboard() {
         setAttribute(slide, 'tabindex', '-1');
     });
 
-    const navButtons = $$$(`.${prefix}-nav`);
+    const navButtons = $$(`.${prefix}-nav`);
 
     navButtons.forEach((button) => {
         setAttribute(button, 'tabindex', '0');
@@ -201,13 +202,13 @@ function a11yKeyboard() {
         });
     });
 
-    const dots = $$$(`.${prefix}-dot`);
+    const dots = $$(`.${prefix}-dot`);
     dots.forEach((dot, index) => {
         setAttribute(dot, 'tabindex', '0');
         addEvent(dot, 'keydown', (e) => {
             if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
-                debug('[SliderJS]', 'Dot activated via keyboard', { index });
+                debug(debugPrefix, 'Dot activated via keyboard', { index });
                 showSlide(index);
             }
         });
@@ -220,7 +221,7 @@ function a11yKeyboard() {
                 addEvent(slide, 'keydown', (e) => {
                     if (e.key === 'Enter' || e.key === ' ') {
                         e.preventDefault();
-                        debug('[SliderJS]', 'Active slide activated via keyboard', { index });
+                        debug(debugPrefix, 'Active slide activated via keyboard', { index });
                         showSlide(index);
                     }
                 });
@@ -234,28 +235,28 @@ function a11yKeyboard() {
         switch (e.key) {
             case 'ArrowUp':
             case 'ArrowRight':
-                debug('[SliderJS]', 'Key pressed', { key: e.key });
+                debug(debugPrefix, 'Key pressed', { key: e.key });
                 showSlide(state.currentIndex + 1);
                 break;
             case 'ArrowDown':
             case 'ArrowLeft':
-                debug('[SliderJS]', 'Key pressed', { key: e.key });
+                debug(debugPrefix, 'Key pressed', { key: e.key });
                 showSlide(state.currentIndex - 1);
                 break;
             case 'Home':
-                debug('[SliderJS]', 'Key pressed', { key: e.key });
+                debug(debugPrefix, 'Key pressed', { key: e.key });
                 showSlide(0);
                 break;
             case 'End':
-                debug('[SliderJS]', 'Key pressed', { key: e.key });
+                debug(debugPrefix, 'Key pressed', { key: e.key });
                 showSlide(state.totalSlides - 1);
                 break;
             case 'PageUp':
-                debug('[SliderJS]', 'Key pressed', { key: e.key });
+                debug(debugPrefix, 'Key pressed', { key: e.key });
                 showSlide(state.currentIndex + 2);
                 break;
             case 'PageDown':
-                debug('[SliderJS]', 'Key pressed', { key: e.key });
+                debug(debugPrefix, 'Key pressed', { key: e.key });
                 showSlide(state.currentIndex - 2);
                 break;
         }
@@ -278,7 +279,7 @@ function a11yKeyboard() {
     });
 
     updateSlideTabindex();
-    debug('[SliderJS]', 'Tab accessibility and keyboard navigation enabled');
+    debug(debugPrefix, 'Tab accessibility and keyboard navigation enabled');
 }
 
 function a11y() {
@@ -302,7 +303,7 @@ function a11y() {
     setAttribute(navNext, 'role', 'button');
     setAttribute(navNext, 'aria-label', 'Next slide');
 
-    $$$(`.${prefix}-dot`).forEach((dot, index) => {
+    $$(`.${prefix}-dot`).forEach((dot, index) => {
         setAttribute(dot, 'role', 'tab');
         setAttribute(dot, 'aria-label', `${index + 1}. slide`);
         setAttribute(dot, 'aria-selected', index === state.currentIndex ? 'true' : 'false');
@@ -325,12 +326,12 @@ function a11y() {
         slides.forEach((slide, idx) => {
             setAttribute(slide, 'tabindex', idx === state.currentIndex ? '0' : '-1');
         });
-        $$$(`.${prefix}-dot`).forEach((dot, idx) => {
+        $$(`.${prefix}-dot`).forEach((dot, idx) => {
             setAttribute(dot, 'aria-selected', idx === state.currentIndex ? 'true' : 'false');
         });
     };
 
-    debug('[SliderJS]', 'Accessibility enhancements applied');
+    debug(debugPrefix, 'Accessibility enhancements applied');
 }
 
 function enableDragAndDrop() {
@@ -344,7 +345,7 @@ function enableDragAndDrop() {
         isDragging = true;
         startX = event.clientX;
         inner.style.transition = 'none'; 
-        debug('[SliderJS]', 'Mouse down', { startX });
+        debug(debugPrefix, 'Mouse down', { startX });
     }
 
     function handleMouseMove(event) {
@@ -365,7 +366,7 @@ function enableDragAndDrop() {
         }
 
         inner.style.transform = `translateX(${currentTranslate}px)`;
-        debug('[SliderJS]', 'Mouse move', { currentX, deltaX, currentTranslate });
+        debug(debugPrefix, 'Mouse move', { currentX, deltaX, currentTranslate });
     }
 
     function handleMouseUp() {
@@ -385,7 +386,7 @@ function enableDragAndDrop() {
         }
 
         prevTranslate = -state.currentIndex * inner.offsetWidth; 
-        debug('[SliderJS]', 'Mouse up', { movedBy, prevTranslate });
+        debug(debugPrefix, 'Mouse up', { movedBy, prevTranslate });
     }
 
     addEvent(inner, 'mousedown', handleMouseDown);
@@ -396,11 +397,11 @@ function enableDragAndDrop() {
         img.setAttribute('draggable', 'false');
     });
 
-    debug('[SliderJS]', 'Drag & Drop enabled');
+    debug(debugPrefix, 'Drag & Drop enabled');
 }
 
 function run() {
-    debug('[SliderJS]', 'Initializing...');
+    debug(debugPrefix, 'Initializing...');
     addStyle(`dist/css/${prefix}.min.css`);
     createNav();
     createDots();
